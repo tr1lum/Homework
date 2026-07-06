@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易银行系统</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold text-primary">🏦 简易银行系统</h2>
+                            <p class="text-muted">请选择您的角色登录</p>
+                        </div>
+
+                        <!-- 角色切换选项卡 -->
+                        <ul class="nav nav-pills nav-justified mb-4" id="roleTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="customer-tab" data-bs-toggle="pill" data-bs-target="#customer" type="button" role="tab">客户</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="teller-tab" data-bs-toggle="pill" data-bs-target="#teller" type="button" role="tab">柜员</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="admin-tab" data-bs-toggle="pill" data-bs-target="#admin" type="button" role="tab">管理员</button>
+                            </li>
+                        </ul>
+
+                        <!-- 登录表单区域 -->
+                        <div class="tab-content">
+                            <!-- 客户登录 -->
+                            <div class="tab-pane fade show active" id="customer" role="tabpanel">
+                                <form id="customerLoginForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">身份证号 / 账号</label>
+                                        <input type="text" class="form-control" id="customerId" placeholder="请输入身份证号或账号" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="customerPwd" placeholder="请输入密码" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 mb-2">登录</button>
+                                    <a href="register.html" class="btn btn-outline-secondary w-100">注册新账户</a>
+                                </form>
+                            </div>
+
+                            <!-- 柜员登录 -->
+                            <div class="tab-pane fade" id="teller" role="tabpanel">
+                                <form id="tellerLoginForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">员工工号</label>
+                                        <input type="text" class="form-control" id="tellerId" placeholder="请输入工号" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="tellerPwd" placeholder="请输入密码" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">登录</button>
+                                </form>
+                            </div>
+
+                            <!-- 管理员登录 -->
+                            <div class="tab-pane fade" id="admin" role="tabpanel">
+                                <form id="adminLoginForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">管理员账号</label>
+                                        <input type="text" class="form-control" id="adminId" placeholder="请输入管理员账号" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="adminPwd" placeholder="请输入密码" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger w-100">登录</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

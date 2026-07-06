@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Bank System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">Bank System - Admin</a>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">Welcome, <span id="adminName">Admin</span></span>
+                <a href="index.html" class="btn btn-outline-light btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 mb-4">
+                <div class="list-group shadow-sm">
+                    <button class="list-group-item list-group-item-action active" onclick="showSection('dashboard')">
+                        Dashboard
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="showSection('employee')">
+                        Employee Management
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="showSection('rate')">
+                        Exchange Rate Config
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <!-- Dashboard -->
+                <div id="section-dashboard" class="card shadow-sm mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Global Dashboard</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card bg-primary text-white dashboard-card">
+                                    <div class="card-body text-center">
+                                        <h6>Total Deposits</h6>
+                                        <h3 class="fw-bold" id="totalDeposits">$0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-info text-white dashboard-card">
+                                    <div class="card-body text-center">
+                                        <h6>Today's Transactions</h6>
+                                        <h3 class="fw-bold" id="todayTxCount">0</h3>
+                                        <small id="todayTxAmount">$0</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-success text-white dashboard-card">
+                                    <div class="card-body text-center">
+                                        <h6>Total Users</h6>
+                                        <h3 class="fw-bold" id="totalUsers">0</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-danger mt-3" onclick="refreshDashboard()">Refresh Data</button>
+                    </div>
+                </div>
+
+                <!-- Employee Management -->
+                <div id="section-employee" class="card shadow-sm mb-4" style="display:none;">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Employee Management</h5>
+                        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#employeeModal">+ Add Employee</button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                <tr><td colspan="5" class="text-center text-muted">No data</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Exchange Rate Config -->
+                <div id="section-rate" class="card shadow-sm mb-4" style="display:none;">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Exchange Rate Configuration</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="rateForm">
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Currency</label>
+                                    <select class="form-select" id="rateCurrency">
+                                        <option value="USD">USD - US Dollar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="JPY">JPY - Japanese Yen</option>
+                                        <option value="GBP">GBP - British Pound</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Rate (1 Currency = ? CNY)</label>
+                                    <input type="number" class="form-control" id="rateValue" step="0.0001" min="0" required>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button type="submit" class="btn btn-warning w-100">Update Rate</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="rateInfo" class="text-muted">Current rates will be displayed here.</div>
+                        <div id="rateResult" class="mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Modal -->
+    <div class="modal fade" id="employeeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add / Edit Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="employeeForm">
+                        <div class="mb-3">
+                            <label class="form-label">Employee ID</label>
+                            <input type="text" class="form-control" id="empId" placeholder="Auto-generated for new" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" id="empName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password (leave blank to keep)</label>
+                            <input type="password" class="form-control" id="empPwd" placeholder="Min 6 chars">
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
